@@ -1,6 +1,8 @@
 # Q-Art-Codes [![](https://data.jsdelivr.com/v1/package/npm/qart-codes/badge)](https://www.jsdelivr.com/package/npm/qart-codes) [![npm](https://img.shields.io/npm/v/qart-codes?style=flat-square)](https://www.npmjs.com/package/qart-codes)
 My own "fancy" browser-and-server-side QR Code generator.
 
+It generates QR Codes with image backgrounds, supporting any size, data, or color combinations you want. 
+
 This is built in pure JavaScript, so it should run anywhere. A bundle has also been provided for browser use.
 
 [![](./res/sample1.png)
