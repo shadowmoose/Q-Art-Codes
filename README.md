@@ -5,7 +5,7 @@ This is built in pure JavaScript, so it should run anywhere. A bundle has also b
 
 [![](./res/sample1.png)
 ![](./res/sample2.png)
-![](./res/sample3.png)](./res/example.html)
+![](./res/sample3.png)](https://shadowmoose.github.io/Q-Art-Codes/res/example.html)
 
 ## Installation:
 Simply run `npm i qart-codes`
