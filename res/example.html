@@ -5,7 +5,7 @@
 	<title>Example QR</title>
 </head>
 <body>
-<script src="https://cdn.jsdelivr.net/npm/qart-codes/bundle/browser.js"></script>
+<script src="../bundle/browser.js"></script>
 <script>
 	qartCode.makeQR(
 		`https://shadowmoo.se`,
@@ -21,7 +21,7 @@
 			}
 		}
 	).then(async canv => {
-		const uri = await qartCode.encodeQR(canv, 'image/png', 0.95); // The browser encodes to Object URLs.
+		const uri = await canv.encodeCanvas(canv, 'image/png', 0.95); // The browser encodes to Object URLs.
 		const img = new Image();
 
 		img.src = uri;

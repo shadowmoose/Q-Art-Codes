@@ -1,5 +1,6 @@
 const QRCode = require('qrcode');
-const canvas = require('./canvas-node');
+const canvasWrapper = require('./canvas-node');
+const svg = require('./svg-renderer');
 
 /**
  * Generates a QR code with an image background.
@@ -10,15 +11,16 @@ const canvas = require('./canvas-node');
  * @param props.qrOpts {version, errorCorrectionLevel} The Version/error level to use. See [node-qrcode](https://www.npmjs.com/package/qrcode#error-correction-level).
  * @param props.colors {dark, light, overlay} Two Strings, which represent the light & dark colors to use. If `overlay` is set, adds a color over the image - use alpha! All can be `rgba()`.
  * @param props.size {boxSize, scale} Two numbers, indicating the size per-square in pixels, and the scale to resize data squares.
- * @return {Promise<bitmap|Canvas>} The canvas object, containing the QR code.
+ * @return {Promise<{decodeCanvas}>} The canvas object, containing the QR code data.
  */
-const make = async(data, backgroundPath, props = {qrOpts: {}, colors: {}, size: {}}) => {
-	let { qrOpts, colors, size} = props;
+const make = async(data, backgroundPath, props = {qrOpts: {}, colors: {}, size: {}, useSVG: false}) => {
+	let { qrOpts, colors, size, useSVG} = props;
 	qrOpts = qrOpts || {};
 	colors = colors || {};
 	size = size || {boxSize: 6, scale: 0.35};
 	// noinspection JSCheckFunctionSignatures
 	const qrCode = QRCode.create(data, qrOpts);
+	const canvas = useSVG ? new svg.SVGCanvas() : canvasWrapper;
 	if (qrCode.version === 1) {
 		// V2 makes the image more robust by adding bottom right square, so require v2 minimum.
 		return await make({...props, qrOpts: {...qrOpts, version: 2}})
@@ -72,4 +74,3 @@ const make = async(data, backgroundPath, props = {qrOpts: {}, colors: {}, size: 
 }
 
 exports.makeQR = make;
-exports.encodeQR = canvas.encodeCanvas;
