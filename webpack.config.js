@@ -6,8 +6,9 @@ module.exports = {
 		app: ["./src/qr.js"]
 	},
 	output: {
-		path: path.resolve(__dirname, "./build"),
-		filename: "bundle-browser.js",
+		path: path.resolve(__dirname, "./bundle"),
+		filename: "browser.js",
+		library: 'qartCode'
 	},
 	resolve: {
 		alias: {

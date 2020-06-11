@@ -1,24 +1,42 @@
 
 
 exports.makeCanvas = async (width, height) => {
-	return typeof OffscreenCanvas !== 'undefined' ? new OffscreenCanvas(width, height) : document.createElement('canvas');
+	if(typeof OffscreenCanvas !== 'undefined'){
+		return new OffscreenCanvas(width, height);
+	} else {
+		const canv = document.createElement('canvas');
+		canv.width  = width;
+		canv.height = height;
+		return canv;
+	}
 }
 
 /**
  * Encodes the canvas object into a Data URL of the Image.
  * @param canv
- * @param {String} type The type of image format to use.
- * @param {object} encoderOptions Additional options object for `canvas.toDataURL`.
- * @return {Promise<string>} The data URL string representing this image.
+ * @param {string} mimeType The type of image to output.
+ * @param {number} quality
+ * @return {Promise<string>} A DataURL representing this image.
  */
-exports.encodeCanvas = async (canv, type='png', encoderOptions={}) => {
-	return canv.toDataURL(type, encoderOptions);
+exports.encodeCanvas = async (canv, mimeType='image/png', quality=0.95) => {
+	let blob;
+	if (canv.convertToBlob) {
+		blob = await canv.convertToBlob({type: mimeType, quality});
+	} else {
+		blob = await new Promise(res => {
+			canv.toBlob(res, mimeType, quality);
+		})
+	}
+	return URL.createObjectURL(blob);
 }
 
 exports.loadImage = async (url) => {
+	if (url instanceof Image) {
+		return url;
+	}
 	return new Promise((res, rej) => {
 		const img = new Image();
-
+		img.crossOrigin = "Anonymous";
 		img.onload = () => {
 			res(img);
 		};
