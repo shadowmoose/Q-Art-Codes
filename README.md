@@ -1,7 +1,11 @@
-# QArt-Codes [![](https://data.jsdelivr.com/v1/package/npm/qart-codes/badge)](https://www.jsdelivr.com/package/npm/qart-codes)
+# Q-Art-Codes [![](https://data.jsdelivr.com/v1/package/npm/qart-codes/badge)](https://www.jsdelivr.com/package/npm/qart-codes)
 My own "fancy" browser-and-server-side QR Code generator.
 
 This is built in pure JavaScript, so it should run anywhere. A bundle has also been provided for browser use.
+
+[![](./res/sample1.png)
+![](./res/sample2.png)
+![](./res/sample3.png)](./res/example.html)
 
 ## Installation:
 Simply run `npm i qart-codes`

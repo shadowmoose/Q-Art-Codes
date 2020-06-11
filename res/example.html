@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Example QR</title>
+</head>
+<body>
+<script src="https://cdn.jsdelivr.net/npm/qart-codes/bundle/browser.js"></script>
+<script>
+	qartCode.makeQR(
+		`https://shadowmoo.se`,
+		"https://i.imgur.com/A391DRf.png",
+		{
+			qrOpts: {
+				version: 6,  // You may pin the QR version used here, no lower than 2.
+				errorCorrectionLevel: 'H'  // See https://www.npmjs.com/package/qrcode#error-correction-level
+			},
+			colors: {
+				dark: 'rgb(206,118,16)',
+				light: 'rgb(255, 255, 255, .7)'
+			}
+		}
+	).then(async canv => {
+		const uri = await qartCode.encodeQR(canv, 'image/png', 0.95); // The browser encodes to Object URLs.
+		const img = new Image();
+
+		img.src = uri;
+		document.body.appendChild(img);
+	})
+</script>
+</body>
+</html>
