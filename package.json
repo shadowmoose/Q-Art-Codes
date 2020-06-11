@@ -1,6 +1,6 @@
 {
   "name": "qart-codes",
-  "version": "1.3.0",
+  "version": "1.4.0",
   "description": "Generate stylized QR codes with background images.",
   "main": "src/qr.js",
   "scripts": {
@@ -10,7 +10,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/shadowmoose/Fancy-QR.git"
+    "url": "git+https://github.com/shadowmoose/Q-Art-Codes.git"
   },
   "keywords": [
     "qr",
@@ -31,7 +31,7 @@
   "author": "ShadowMoose",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/shadowmoose/Fancy-QR/issues"
+    "url": "https://github.com/shadowmoose/Q-Art-Codes/issues"
   },
-  "homepage": "https://github.com/shadowmoose/Fancy-QR#readme"
+  "homepage": "https://github.com/shadowmoose/Q-Art-Codes#readme"
 }
