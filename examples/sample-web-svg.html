@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Sample SVG QR</title>
+</head>
+<body>
+
+<!-- Download this locally or pin the version in production, the code at this link can change: -->
+<script src="../dist/index-browser.min.js"></script>
+<script>
+	const svgText = `<svg width="400" height="400" xmlns="http://www.w3.org/2000/svg">
+	 <g>
+	  <rect fill="#fff" id="canvas_background" height="201" width="201" y="-1" x="-1"/>
+	  <g display="none" overflow="visible" y="0" x="0" height="100%" width="100%" id="canvasGrid">
+	   <rect fill="url(#gridpattern)" stroke-width="0" y="0" x="0" height="100%" width="100%"/>
+	  </g>
+	 </g>
+	 <g>
+	  <path id="svg_2" d="m-0.4925,152.05385l153.16946,0l47.33054,-153.55075l47.33057,153.55075l153.16943,0l-123.91647,94.8985l47.33299,153.55075l-123.91652,-94.90108l-123.91649,94.90108l47.333,-153.55075l-123.91651,-94.8985z" stroke-width="1.5" stroke="#dddd25" fill="#15eaea"/>
+	 </g>
+	</svg>`;
+
+	makeQR(
+		`https://shadowmoo.se`,
+		svgText,
+		{
+			colors: {
+				dark: 'rgba(37,45,206, 1.0)',
+				light: 'white'
+			},
+			size: {
+				boxSize: 16
+			},
+			useSVG: true
+		}
+	).then(async canv => {
+		console.log('ret:', canv);
+		const newSvg = document.createElement('svg');
+		newSvg.innerHTML = canv.toSVG();
+		document.body.append(newSvg);
+	})
+</script>
+
+
+</body>
+</html>

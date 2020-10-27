@@ -1,0 +1,41 @@
+name: Test Package
+
+on: [push]
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        node-version: [10.x, 12.x, 13.x, 14.x]
+
+    steps:
+    - uses: actions/checkout@v1
+
+    - name: Setup Node.js (${{ matrix.node-version }})
+      uses: actions/setup-node@v1
+      with:
+        node-version: ${{ matrix.node-version }}
+        registry-url: https://registry.npmjs.org
+
+    - name: Install dependencies
+      run: yarn install --frozen-lockfile
+
+    - name: Build
+      run: yarn build
+
+    - name: Test
+      run: yarn test --ci
+
+    - name: Upload coverage to Codecov
+      uses: codecov/codecov-action@v1
+      with:
+        # token: ${{ secrets.CODECOV_TOKEN }} # Not needed for public repos.
+        directory: ./coverage/
+        flags: unittests
+        env_vars: ${{ matrix.node-version }}
+        name: codecov-umbrella
+        fail_ci_if_error: false
+        verbose: false

@@ -1,0 +1,37 @@
+on:
+  push:
+    branches: [master, ]
+
+name: Build Docs
+
+jobs:
+  build-docs:
+    runs-on: ubuntu-latest
+    name: Build and test
+    steps:
+      - name: checkout
+        uses: actions/checkout@v1
+
+      - name: Setup node
+        uses: actions/setup-node@v1
+        with:
+          node-version: '12'
+
+      - name: Install packages
+        uses: bahmutov/npm-install@v1
+
+      - name: Build Docs
+        run: |
+          yarn build-docs
+        # Include extra dirs: mv ./examples ./docs/
+
+      - name: Deploy to Web
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./docs/
+          publish_branch: gh-pages
+          #user_name: "build-bot"
+          #user_email: "github_bot@github.com"
+          allow_empty_commit: false
+          #force_orphan: true

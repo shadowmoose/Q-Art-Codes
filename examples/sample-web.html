@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Sample QR</title>
+</head>
+<body>
+
+<!-- Download this locally or pin the version in production, the code at this link can change: -->
+<script src="../dist/index-browser.min.js"></script>
+<script>
+	makeQR(
+		`https://shadowmoo.se`,
+		"https://i.imgur.com/7tMdIX9.png",
+		{
+			colors: {
+				dark: 'rgba(37,45,206, 1.0)',
+				light: 'white'
+			}
+		}
+	).then(async canv => {
+		console.log('ret:', canv);
+		const uri = URL.createObjectURL(await canv.toBlob('image/png', 0.95)); // The browser encodes to Object URIs.
+		const img = new Image();
+		img.src = uri;
+		document.body.appendChild(img);
+	})
+</script>
+
+
+</body>
+</html>
