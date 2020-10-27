@@ -24,6 +24,9 @@ jobs:
         run: yarn version --new-version "${GITHUB_REF:10}" --no-git-tag-version
 
       - name: Test
+        run: yarn build
+
+      - name: Test
         run: yarn test --ci
 
       - name: Publish
