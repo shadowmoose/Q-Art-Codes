@@ -1,4 +1,4 @@
-# Q-Art-Codes [![](https://data.jsdelivr.com/v1/package/npm/qart-codes/badge)](https://www.jsdelivr.com/package/npm/qart-codes) [![npm](https://img.shields.io/npm/v/qart-codes?style=flat-square)](https://www.npmjs.com/package/qart-codes)
+# Q-Art-Codes [![](https://data.jsdelivr.com/v1/package/npm/qart-codes/badge)](https://www.jsdelivr.com/package/npm/qart-codes) [![npm](https://img.shields.io/npm/v/qart-codes?style=flat-square)](https://www.npmjs.com/package/qart-codes) ![](https://raw.githubusercontent.com/shadowmoose/Q-Art-Codes/image-data/loc-badge.svg)
 My own "fancy" browser-and-server-side QR Code generator.
 
 It generates QR Codes with image backgrounds, supporting any size, data, or color combinations you want.
