@@ -1,0 +1,155 @@
+<!--
+	This is a demo web app, which lets you customize an image in the browser.
+	It was just slapped together to provide basic functionality to non-technical users.
+	The code here is super ugly, so check out the other examples in this directory.
+-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Sample QR</title>
+
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@simonwep/pickr/dist/themes/nano.min.css"/>
+	<style>
+		body {
+			background: #b7adad;
+		}
+		.flex-container {
+			display: flex;
+		}
+
+		.flex-child {
+			flex: 1;
+		}
+
+		.flex-child:first-child {
+			margin-right: 20px;
+		}
+	</style>
+</head>
+<body>
+
+<!-- Download this locally or pin the version in production, the code at this link can change: -->
+<script src="https://cdn.jsdelivr.net/npm/qart-codes@3.0.2/dist/index-browser.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@simonwep/pickr/dist/pickr.min.js"></script>
+<script>
+	let timer = null;
+	const colors = {
+		dark: 'rgba(36, 46, 207, 0.7)',
+		light: 'rgba(255, 255, 255, 0.85)',
+		overlay: ''
+	};
+	let imageUrl = "https://i.imgur.com/DVcoa68.png";
+
+	function get(id, num = false) {
+		const v =  document.getElementById(id).value;
+		return num ? parseFloat(v) : v;
+	}
+	function startRebuild() {
+		if (!timer) {
+			setTimeout(rebuild, 200);
+		}
+	}
+	function rebuild() {
+		timer = null;
+		makeQR(
+			get('text'),
+			imageUrl,
+			{
+				colors,
+				size: {
+					boxSize: parseInt(get('size')),  // The base size, in px, that each square should take in the grid.
+					scale: get('scale')  // Scale the "small" boxes down to this ratio.
+				},
+			}
+		).then(async canv => {
+			URL.revokeObjectURL(document.getElementById('output').src);
+			 // The browser encodes to Object URIs.
+			document.getElementById('output').src = URL.createObjectURL(await canv.toBlob('image/png', 0.95));
+		})
+	}
+
+	function bindColorPicker(eleID, colorName, defaultCol='#000000') {
+		const pickr = Pickr.create({
+			el: `#${eleID}`,
+			theme: 'nano', // or 'monolith', or 'nano'
+			default: defaultCol,
+			swatches: [
+				'rgba(244, 67, 54, 1)',
+				'rgba(233, 30, 99, 0.95)',
+				'rgba(156, 39, 176, 0.9)',
+				'rgba(103, 58, 183, 0.85)',
+				'rgba(63, 81, 181, 0.8)',
+				'rgba(33, 150, 243, 0.75)',
+				'rgba(3, 169, 244, 0.7)'
+			],
+
+			defaultRepresentation: 'RGBA',
+			components: {
+				preview: true,
+				opacity: true,
+				hue: true,
+
+				interaction: {
+					hex: false,
+					rgba: false,
+					hsva: false,
+					input: true,
+					clear: true,
+					save: true
+				}
+			},
+			container: document.getElementById('controls'),
+			comparison: false,
+		});
+		pickr.on('change', (col) => {
+			colors[colorName] = col.toRGBA().toString();
+			startRebuild();
+		})
+	}
+
+	function loadImage() {
+		const file = document.querySelector('input[type=file]').files[0];
+		const reader = new FileReader();
+
+		reader.addEventListener("load", function () {
+			imageUrl = reader.result;
+			startRebuild();
+		}, false);
+
+		if (file) {
+			reader.readAsDataURL(file);
+		}
+	}
+
+	document.addEventListener('DOMContentLoaded', () => {
+		bindColorPicker('dColor', 'dark', colors.dark);
+		bindColorPicker('lColor', 'light', colors.light);
+		bindColorPicker('oColor', 'overlay', 'rgba(0,0,0,0)');
+		rebuild();
+		for (const ele of Array.from(document.getElementsByTagName('input'))) {
+			ele.addEventListener('input', rebuild);
+		}
+	}, false);
+</script>
+
+<div id="wrapper" class="flex-container">
+	<div id="display" class="flex-child">
+		<img id="output" alt="preview" src="" style="float: right;"/>
+	</div>
+	<div id="controls" class="flex-child">
+		<label for="img">Select a custom image:</label><input type="file" onchange="loadImage()" id="img" accept="image/*">
+		<hr>
+		<b>Dark Color:</b> <p id="dColor" style="width: 10px">Dark</p>
+		<b>Light Color:</b> <p id="lColor" style="width: 10px">Dark</p>
+		<b>Overlay:</b> <p id="oColor" style="width: 10px">Dark</p>
+		<hr>
+		<label for="size">Box Size (px):</label> <input type="number" id="size" value="12" min="3" step="1"/> <br>
+		<label for="scale">Scale tiny squares:</label> <input type="number" id="scale" value="0.4" max="1" min="0.1" step="0.1"/>
+		<hr>
+		<textarea id="text" style="width: 80%; height: 200px;" oninput="startRebuild()">https://www.nasa.gov/</textarea>
+	</div>
+</div>
+
+</body>
+</html>
