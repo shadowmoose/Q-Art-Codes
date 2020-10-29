@@ -64,8 +64,12 @@
 			}
 		).then(async canv => {
 			URL.revokeObjectURL(document.getElementById('output').src);
-			 // The browser encodes to Object URIs.
-			document.getElementById('output').src = URL.createObjectURL(await canv.toBlob('image/png', 0.95));
+			const url = URL.createObjectURL(await canv.toBlob('image/png', 1));
+			document.getElementById('output').src = url;
+
+			const a = document.getElementById('download');
+			a.href = url;
+			a.download = "qr-code.png";
 		})
 	}
 
@@ -135,7 +139,7 @@
 
 <div id="wrapper" class="flex-container">
 	<div id="display" class="flex-child">
-		<img id="output" alt="preview" src="" style="float: right;"/> <br>
+		<a href="#" id="download" title="Download"><img id="output" alt="preview" src="" style="float: right;"/></a> <br>
 		<a href="https://github.com/shadowmoose/Q-Art-Codes" >Check out the Project!</a>
 	</div>
 	<div id="controls" class="flex-child">
